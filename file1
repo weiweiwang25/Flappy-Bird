@@ -1,0 +1,309 @@
+import pygame
+import sys
+import os
+import time
+import keyboard
+
+pygame.init()
+
+points = 0
+#Define the screen size
+
+window_width=900
+window_height=504
+
+#??
+animation_increment=10
+#Frame per second
+clock_tick_rate=20
+
+size = (window_width, window_height)
+screen = pygame.display.set_mode(size)
+
+death = False
+#Define the font
+font = pygame.font.SysFont("Showcard Gothic", 52)
+font2 =  pygame.font.SysFont("Showcard Gothic", 40)
+
+#Define the colour
+white = (225,225,225)
+red=(255,0,0)
+black = (0,0,0)
+#Define the for while loops
+menuOn = True
+gameOn = False
+
+#Load the images
+bird = pygame.image.load(os.path.join('data', 'bird2a.png')).convert() 
+instructions = pygame.image.load(os.path.join('data', 'instructions.png')).convert()
+
+#Removes the colour black in the image
+bird.set_colorkey(black)
+
+
+#To  track the x and y movements of the object use X and Y
+birdX = 15
+birdY = 150
+
+score = 0
+
+#Import the images into the game
+TopPipe1 = pygame.image.load(os.path.join('data', 'toppipe1.png')).convert()
+BottomPipe1 = pygame.image.load(os.path.join('data', 'bottompipe1.png')).convert()
+TopPipe2 = pygame.image.load(os.path.join('data', 'toppipe2.png')).convert()
+BottomPipe2 = pygame.image.load(os.path.join('data', 'bottompipe2.png')).convert()
+TopPipe3 = pygame.image.load(os.path.join('data', 'toppipe3.png')).convert()
+BottomPipe3 = pygame.image.load(os.path.join('data', 'bottompipe3.png')).convert()
+TopPipe4 = pygame.image.load(os.path.join('data', 'toppipe4.png')).convert()
+BottomPipe4 = pygame.image.load(os.path.join('data', 'bottompipe4.png')).convert()
+TopPipe5 = pygame.image.load(os.path.join('data', 'toppipe5.png')).convert()
+BottomPipe5 = pygame.image.load(os.path.join('data', 'bottompipe5.png')).convert()
+
+#Set the colours for the pipe
+TopPipe1.set_colorkey(red)
+TopPipe2.set_colorkey(red)
+TopPipe3.set_colorkey(red)
+TopPipe4.set_colorkey(red)
+TopPipe5.set_colorkey(red)
+BottomPipe1.set_colorkey(red)
+BottomPipe2.set_colorkey(red)
+BottomPipe3.set_colorkey(red)
+BottomPipe4.set_colorkey(red)
+BottomPipe5.set_colorkey(red)
+
+#Location for X and Y of the pipes
+TopPipe1X = 100
+TopPipe2X = 260
+TopPipe3X = 420
+TopPipe4X = 580
+TopPipe5X = 740
+TopPipe1Y = 0
+TopPipe2Y = 0
+TopPipe3Y = 0
+TopPipe4Y = 0
+TopPipe5Y = 0
+BottomPipe1X = 100
+BottomPipe2X = 260
+BottomPipe3X = 420
+BottomPipe4X = 580
+BottomPipe5X = 740
+BottomPipe1Y = 342
+BottomPipe2Y = 257
+BottomPipe3Y = 345
+BottomPipe4Y = 261
+BottomPipe5Y = 189
+
+
+#Background for the game
+
+clock = pygame.time.Clock()
+background = pygame.image.load(os.path.join('data', 'background3.png')).convert() 
+screen.blit(background, [0, 0])
+pygame.display.flip()
+clock.tick(clock_tick_rate)
+
+
+instructions1 =True
+#start menu
+while menuOn == True and death == False:
+
+#Initialize the game and if you press escape it will exit the game
+
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            pygame.quit()
+            exit
+        if instructions1==True:
+            Screen.blit (instructions, [0, 0])
+#Need this line so it can use the feature that the key was pressed
+
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_x]:
+#Can change the x to unblit the background and change it?
+
+                screen.blit(background, [0, 0])
+                instructions1=False
+                menu = pygame.Rect(270, 25, 350, 280)
+                pygame.draw.rect(screen,[255,185,15],menu) 
+                text = font.render("Welcome to", True, (white))
+                screen.blit(text,(275, 30))
+                text = font.render("Flappy Bird", True, (white))
+                screen.blit(text,(275, 90))
+                button = pygame.Rect(360, 150, 160, 70)
+                pygame.draw.rect(screen,[225, 225, 225],button)
+                text = font.render("Start", True, (black))
+                screen.blit(text,(362, 155))
+           
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_pos = event.pos 
+
+            if button.collidepoint(mouse_pos):
+
+                print('button was pressed at {0}'.format(mouse_pos))
+                screen.blit(background, [0, 0])
+                menuOn=False
+                gameOn = True
+                
+
+                
+    pygame.display.flip()
+    clock.tick(60)
+
+masterLoop=True
+#birdmovement
+while masterLoop == True:
+    birdX = 15
+    birdY = 150
+    score = 0
+    while gameOn == True:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                Exit
+#Blit means to put things on the screen 
+        screen.blit(object, [x, y])
+        screen.blit(background, [0,0])
+        screen.blit(bird,[birdX,birdY])
+   
+        keys = pygame.key.get_pressed()
+
+        if birdY < 400:
+#This checks for collision, it creates a box around the image and if the two boxes collide it will 
+            TopPipe1Collider = TopPipe1.get_rect(topleft=(TopPipe1X,TopPipe1Y))
+            TopPipe2Collider = TopPipe2.get_rect(topleft=(TopPipe2X,TopPipe2Y))
+            TopPipe3Collider = TopPipe3.get_rect(topleft=(TopPipe3X,TopPipe3Y))
+            TopPipe4Collider = TopPipe4.get_rect(topleft=(TopPipe4X,TopPipe4Y))
+            TopPipe5Collider = TopPipe5.get_rect(topleft=(TopPipe5X,TopPipe5Y))
+            BottomPipe1Collider = BottomPipe1.get_rect(topleft=(BottomPipe1X,BottomPipe1Y))
+            BottomPipe2Collider = BottomPipe2.get_rect(topleft=(BottomPipe2X,BottomPipe2Y))
+            BottomPipe3Collider = BottomPipe3.get_rect(topleft=(BottomPipe3X,BottomPipe3Y))
+            BottomPipe4Collider = BottomPipe4.get_rect(topleft=(BottomPipe4X,BottomPipe4Y))
+            BottomPipe5Collider = BottomPipe5.get_rect(topleft=(BottomPipe5X,BottomPipe5Y))
+            BirdCollider = bird.get_rect(topleft=(birdX,birdY))
+
+            screen.blit(TopPipe1, [TopPipe1X, TopPipe1Y])
+            screen.blit(BottomPipe1, [BottomPipe1X, BottomPipe1Y])
+            screen.blit(TopPipe2, [TopPipe2X, TopPipe2Y])
+            screen.blit(BottomPipe2, [BottomPipe2X, BottomPipe2Y])
+            screen.blit(TopPipe3, [TopPipe3X, TopPipe3Y])
+            screen.blit(BottomPipe3, [BottomPipe3X, BottomPipe3Y])
+            screen.blit(TopPipe4, [TopPipe4X, TopPipe4Y])
+            screen.blit(BottomPipe4, [BottomPipe4X, BottomPipe4Y])
+            screen.blit(TopPipe5, [TopPipe5X, TopPipe5Y])
+            screen.blit(BottomPipe5, [BottomPipe5X, BottomPipe5Y])
+#Come back on the other side if it went off of the screen 
+            if birdX > 900:
+                birdX = 0
+                screen.blit(background, [0, 0])
+
+#If the space bar is pressed then bird goes up 20 and right 10 
+            if keys[pygame.K_SPACE]: 
+                birdY = birdY-20
+                birdX = birdX+10
+#First pipe was at 100 and width is 61, so if it is in between then
+            if birdX in range (161, 260):
+                points += 1
+                if points > 0:
+                    score = 1
+            if birdX in range (321, 420):
+                points += 1
+                if points > 0:
+                    score = 2
+            if birdX in range (481, 580):
+                points += 1
+                if points > 0:
+                    score = 3
+            if birdX in range (641, 740):
+                points += 1
+                if points > 0:
+                    score = 4
+            if birdX in range (801, 900):
+                points += 1 
+                if points > 0:
+                    score = 5
+
+
+            if TopPipe1Collider.colliderect(BirdCollider):
+                print("game over!")
+                death = True
+                gameOn = False
+            if TopPipe2Collider.colliderect(BirdCollider):
+                print("game over!")
+                death = True
+                gameOn = False
+            if TopPipe3Collider.colliderect(BirdCollider):
+                print("game over!")
+                death = True
+                gameOn = False
+            if TopPipe4Collider.colliderect(BirdCollider):
+                print("game over!")
+                death = True
+                gameOn = False
+            if TopPipe5Collider.colliderect(BirdCollider):
+                print("game over!")
+                death = True
+                gameOn = False
+            if BottomPipe1Collider.colliderect(BirdCollider):
+                print("game over!")
+                death = True
+                gameOn = False
+            if BottomPipe2Collider.colliderect(BirdCollider):
+                print("game over!")
+                death = True
+                gameOn = False
+            if BottomPipe3Collider.colliderect(BirdCollider):
+                print("game over!")
+                death = True
+                gameOn = False
+            if BottomPipe4Collider.colliderect(BirdCollider):
+                print("game over!")
+                death = True
+                gameOn = False
+            if BottomPipe5Collider.colliderect(BirdCollider):
+                print("game over!")
+                death = True
+                gameOn = False
+#If you do not press anything, then the bird will go down and it will eventually die
+            else:
+                birdY = birdY+10
+                birdX = birdX+5  
+#Display score
+            points1Display = str(score)
+            text1 = font2.render(points1Display, True, (white))
+            screen.blit(text1,(450, 100))
+
+        else:
+            gameOn = False
+            death = True
+#NEED THIS TO PLAY
+        pygame.display.flip()
+        clock.tick(clock_tick_rate)
+    
+#Death menu
+
+    while death == True:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                exit
+
+        menu2 = pygame.Rect(270, 25, 350, 280)
+        pygame.draw.rect(screen,[255,185,15],menu2) 
+        points2Display = "Score:"+str(score)
+        text2 = font2.render(points2Display, True, (white))
+        screen.blit(text2,(355, 90))
+        button2 = pygame.Rect(370, 150, 160, 80)
+        pygame.draw.rect(screen,[225, 225, 225],button2)
+        text = font2.render("replay", True, (black))
+        screen.blit(text,(375, 170))
+
+        if event.type == pygame.MOUSEBUTTONDOWN: 
+            mouse_pos = event.pos  
+
+            if button2.collidepoint(mouse_pos):
+                print('button was pressed at {0}'.format(mouse_pos))
+                gameOn = True
+                death = False
+
+        pygame.display.flip()          
+        clock.tick(100)
